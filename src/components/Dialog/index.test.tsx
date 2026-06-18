@@ -27,6 +27,7 @@ describe("Dialog", () => {
 
     expect(getByRole("dialog")).toBeTruthy()
     expect(getByAltText("Banner 1")).toBeTruthy()
+    expect(getByRole("dialog").querySelector("video")).toBeNull()
     expect(getByLabelText("Não mostrar novamente")).toBeTruthy()
     expect(getByText("1 de 2")).toBeTruthy()
   })
@@ -37,6 +38,7 @@ describe("Dialog", () => {
     const video = getByRole("dialog").querySelector("video")
 
     expect(video).toBeTruthy()
+    expect(getByRole("dialog").querySelector("img")).toBeNull()
     expect(video?.getAttribute("src")).toContain("video.mp4")
     expect(getByText("2 de 2")).toBeTruthy()
   })
@@ -56,20 +58,42 @@ describe("Dialog", () => {
     expect(checkbox.checked).toBe(false)
   })
 
-  it("avança um modal por vez ao navegar", () => {
-    const { getByText, queryByAltText, getByRole } = render(<Dialog items={items} />)
+  it("avança um modal por vez ao clicar no botão de fechar", () => {
+    const { getByLabelText, queryByAltText, getByRole, getByText } = render(
+      <Dialog items={items} />,
+    )
 
-    fireEvent.click(getByText("Próximo"))
+    fireEvent.click(getByLabelText("Fechar"))
 
     expect(queryByAltText("Banner 1")).toBeNull()
     expect(getByRole("dialog").querySelector("video")).toBeTruthy()
     expect(getByText("2 de 2")).toBeTruthy()
   })
 
-  it("fecha ao concluir o último modal", () => {
-    const { getByText, queryByRole } = render(<Dialog items={items} initialIndex={1} />)
+  it("avança um modal por vez ao clicar no backdrop", () => {
+    const { queryByAltText, getByRole, getByText } = render(<Dialog items={items} />)
 
-    fireEvent.click(getByText("Concluir"))
+    fireEvent.click(document.body.querySelector('[class*="backdrop"]') as Element)
+
+    expect(queryByAltText("Banner 1")).toBeNull()
+    expect(getByRole("dialog").querySelector("video")).toBeTruthy()
+    expect(getByText("2 de 2")).toBeTruthy()
+  })
+
+  it("fecha ao clicar em fechar no último modal", () => {
+    const { getByLabelText, queryByRole } = render(
+      <Dialog items={items} initialIndex={1} />,
+    )
+
+    fireEvent.click(getByLabelText("Fechar"))
+
+    expect(queryByRole("dialog")).toBeNull()
+  })
+
+  it("fecha ao clicar no backdrop do último modal", () => {
+    const { queryByRole } = render(<Dialog items={items} initialIndex={1} />)
+
+    fireEvent.click(document.body.querySelector('[class*="backdrop"]') as Element)
 
     expect(queryByRole("dialog")).toBeNull()
   })

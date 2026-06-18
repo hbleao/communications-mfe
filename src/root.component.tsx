@@ -1,8 +1,6 @@
 import { Dialog } from "./components/Dialog"
 import { BannerCarousel } from "./components/BannerCarousel"
 
-
-
 export default function Root(props: { name?: string }) {
   return (
     <section>

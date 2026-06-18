@@ -13,19 +13,16 @@ export type { DialogItem, DialogProps } from "./types"
 export function Dialog(props: DialogProps) {
   const {
     activeIndex,
+    activeItem,
     checkboxId,
     checked,
-    currentItem,
     goNext,
-    goPrevious,
-    hasNext,
-    hasPrevious,
     isOpen,
     normalizedItems,
     setChecked,
   } = useDialogController(props)
 
-  if (!isOpen || !currentItem) {
+  if (!isOpen || !activeItem) {
     return null
   }
 
@@ -34,7 +31,7 @@ export function Dialog(props: DialogProps) {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={currentItem.title ?? `Modal ${activeIndex + 1}`}
+        aria-label={activeItem.title ?? `Modal ${activeIndex + 1}`}
         className={styles.dialog}
         onClick={(event) => event.stopPropagation()}
       >
@@ -45,7 +42,7 @@ export function Dialog(props: DialogProps) {
         />
 
         <DialogMedia
-          item={currentItem}
+          mediaItem={activeItem}
           frameClassName={styles.mediaFrame}
           mediaClassName={styles.media}
         />
@@ -55,19 +52,12 @@ export function Dialog(props: DialogProps) {
           checked={checked}
           currentStep={activeIndex + 1}
           onCheckedChange={setChecked}
-          onNext={goNext}
-          onPrevious={goPrevious}
           showNavigation={normalizedItems.length > 1}
           totalSteps={normalizedItems.length}
-          hasNext={hasNext}
-          hasPrevious={hasPrevious}
           checkboxContainerClassName={styles.checkboxContainer}
           checkboxRowClassName={styles.checkboxRow}
           actionsClassName={styles.actions}
           counterClassName={styles.counter}
-          buttonGroupClassName={styles.buttonGroup}
-          primaryButtonClassName={styles.primaryButton}
-          secondaryButtonClassName={styles.secondaryButton}
         />
       </div>
     </div>,

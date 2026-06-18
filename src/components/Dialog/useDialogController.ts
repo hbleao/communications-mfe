@@ -39,13 +39,8 @@ export function useDialogController({
     setChecked(false)
   }, [activeIndex])
 
-  const currentItem = normalizedItems[activeIndex]
-  const hasPrevious = activeIndex > 0
+  const activeItem = normalizedItems[activeIndex]
   const hasNext = activeIndex < normalizedItems.length - 1
-
-  const goPrevious = () => {
-    setActiveIndex((index) => Math.max(index - 1, 0))
-  }
 
   const goNext = () => {
     if (hasNext) {
@@ -59,12 +54,10 @@ export function useDialogController({
   return {
     activeIndex,
     checkboxId: `${checkboxBaseId}-${activeIndex}`,
+    activeItem,
     checked,
-    currentItem,
     goNext,
-    goPrevious,
     hasNext,
-    hasPrevious,
     isOpen,
     normalizedItems,
     setChecked,

@@ -58,6 +58,8 @@ declare module "*.sass" {
   export default css;
 }
 
+declare module "swiper/css";
+
 declare module "react-dom/client" {
   export type Root = {
     render(children: any): void;

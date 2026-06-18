@@ -1,28 +1,29 @@
-import React from "react"
 import { createRoot, Root } from "react-dom/client"
-import { Modal, ModalProps } from "../components/modal"
+import { Dialog, DialogProps } from "../components/Dialog"
 
-export type ModalParcelProps = ModalProps & {
+export type DialogParcelProps = DialogProps & {
   domElement: HTMLElement
 }
 
 const roots = new WeakMap<HTMLElement, Root>()
 
-export const modalParcel = {
+export const dialogParcel = {
   bootstrap: () => Promise.resolve(),
-  mount: (props: ModalParcelProps) => {
+  mount: (props: DialogParcelProps) => {
     const root = createRoot(props.domElement)
     roots.set(props.domElement, root)
-    root.render(<Modal {...props} />)
+    const { domElement: _domElement, ...dialogProps } = props
+    root.render(<Dialog {...dialogProps} />)
     return Promise.resolve()
   },
-  update: (props: ModalParcelProps) => {
+  update: (props: DialogParcelProps) => {
     const root = roots.get(props.domElement)
     if (!root) return Promise.resolve()
-    root.render(<Modal {...props} />)
+    const { domElement: _domElement, ...dialogProps } = props
+    root.render(<Dialog {...dialogProps} />)
     return Promise.resolve()
   },
-  unmount: (props: ModalParcelProps) => {
+  unmount: (props: DialogParcelProps) => {
     const root = roots.get(props.domElement)
     if (!root) return Promise.resolve()
     root.unmount()

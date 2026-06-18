@@ -27,12 +27,6 @@ export const mount = lifecycles.mount
 export const unmount = lifecycles.unmount
 export const update = lifecycles.update
 
-export { bannerRotativoParcel } from "./parcels/banner-rotativo.parcel"
-export type {
-  BannerRotativoProps,
-  BannerSlide,
-} from "./components/bannerCarousel"
-
-export { modalParcel } from "./parcels/modal.parcel"
-export type { ModalParcelProps } from "./parcels/modal.parcel"
-export type { ModalProps } from "./components/modal"
+export { BannerCarouselParcel } from "./parcels/banner-carousel.parcel"
+export { dialogParcel } from "./parcels/modal.parcel"
+export type { DialogParcelProps } from "./parcels/modal.parcel"
